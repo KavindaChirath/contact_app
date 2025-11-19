@@ -12,7 +12,14 @@ class ContactListPage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
       ),
-      body: const Center(child: Text('Welcome to Contacts App!')),
+      body: ListView.builder(
+        itemCount: 30,
+        itemBuilder: (context, index) {
+          return Center(
+            child: Text('Contact Test', style: TextStyle(fontSize: 20)),
+          );
+        },
+      ),
     );
   }
 }

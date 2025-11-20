@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:faker/faker.dart';
 
 class ContactListPage extends StatelessWidget {
   const ContactListPage({super.key, required this.title});
@@ -7,6 +8,7 @@ class ContactListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FakeData = Faker();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -14,9 +16,13 @@ class ContactListPage extends StatelessWidget {
       ),
       body: ListView.builder(
         itemCount: 30,
+        // Runs and builds each item of the list
         itemBuilder: (context, index) {
           return Center(
-            child: Text('Contact Test', style: TextStyle(fontSize: 20)),
+            child: Text(
+              FakeData.person.firstName() + " " + FakeData.person.lastName(),
+              style: TextStyle(fontSize: 20),
+            ),
           );
         },
       ),

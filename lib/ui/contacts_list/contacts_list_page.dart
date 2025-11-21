@@ -12,14 +12,21 @@ class ContactListPage extends StatefulWidget {
 }
 
 class _ContactListPageState extends State<ContactListPage> {
-  List<Contact> contacts = List.generate(50, (index) {
-    final faker = Faker();
-    return Contact(
-      name: '${faker.person.firstName()} ${faker.person.lastName()}',
-      email: faker.internet.email(),
-      phoneNumber: faker.randomGenerator.integer(100000).toString(),
-    );
-  });
+  List<Contact> contacts = [];
+
+  // Runs When the Widget is Initialized
+  @override
+  void initState() {
+    super.initState();
+    contacts = List.generate(50, (index) {
+      final faker = Faker();
+      return Contact(
+        name: '${faker.person.firstName()} ${faker.person.lastName()}',
+        email: faker.internet.email(),
+        phoneNumber: faker.randomGenerator.integer(100000).toString(),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +44,10 @@ class _ContactListPageState extends State<ContactListPage> {
           return ListTile(
             title: Text(contacts[index].name),
             subtitle: Text(contacts[index].email),
+            trailing: IconButton(
+              icon: Icon(Icons.star_border),
+              onPressed: () {},
+            ),
           );
         },
       ),

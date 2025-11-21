@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
 import '../../data/contact.dart';
 
-class ContactListPage extends StatelessWidget {
+class ContactListPage extends StatefulWidget {
+  final String title;
+
+  ContactListPage({required this.title});
+
+  @override
+  State<ContactListPage> createState() => _ContactListPageState();
+}
+
+class _ContactListPageState extends State<ContactListPage> {
   List<Contact> contacts = List.generate(50, (index) {
     final faker = Faker();
     return Contact(
@@ -11,9 +20,6 @@ class ContactListPage extends StatelessWidget {
       phoneNumber: faker.randomGenerator.integer(100000).toString(),
     );
   });
-  final String title;
-
-  ContactListPage({required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class ContactListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
+        title: Text(widget.title),
       ),
       body: ListView.builder(
         itemCount: 50,

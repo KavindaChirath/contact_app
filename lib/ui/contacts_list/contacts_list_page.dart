@@ -45,8 +45,15 @@ class _ContactListPageState extends State<ContactListPage> {
             title: Text(contacts[index].name),
             subtitle: Text(contacts[index].email),
             trailing: IconButton(
-              icon: Icon(Icons.star_border),
-              onPressed: () {},
+              icon: Icon(
+                contacts[index].isFavorite ? Icons.star : Icons.star_border,
+                color: contacts[index].isFavorite ? Colors.amber : Colors.grey,
+              ),
+              onPressed: () {
+                setState(() {
+                  contacts[index].isFavorite = !contacts[index].isFavorite;
+                });
+              },
             ),
           );
         },

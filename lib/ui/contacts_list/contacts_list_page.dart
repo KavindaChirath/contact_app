@@ -27,6 +27,7 @@ class ContactListPage extends StatelessWidget {
         itemCount: 50,
         // Runs and builds each item of the list
         itemBuilder: (context, index) {
+          // Get dummy data to look like real contact app home
           return ListTile(
             title: Text(contacts[index].name),
             subtitle: Text(contacts[index].email),

@@ -3,7 +3,13 @@ class Contact {
   String email;
   // all phone numbers are not formatted the same way
   String phoneNumber;
+  bool isFavorite = false;
 
   // Required using to named parameters because string can't be not null
-  Contact({required this.name, required this.email, required this.phoneNumber});
+  Contact({
+    required this.name,
+    required this.email,
+    required this.phoneNumber,
+    this.isFavorite = false,
+  });
 }

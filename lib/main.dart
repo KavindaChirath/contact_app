@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 1, 31, 41),
         ),
       ),
-      home: const ContactListPage(title: 'Contacts'),
+      home: ContactListPage(title: 'Contacts'),
     );
   }
 }

@@ -52,6 +52,15 @@ class _ContactListPageState extends State<ContactListPage> {
               onPressed: () {
                 setState(() {
                   contacts[index].isFavorite = !contacts[index].isFavorite;
+                  contacts.sort((a, b) {
+                    if (a.isFavorite) {
+                      return -1;
+                    } else if (b.isFavorite) {
+                      return 1;
+                    } else {
+                      return 0;
+                    }
+                  });
                 });
               },
             ),

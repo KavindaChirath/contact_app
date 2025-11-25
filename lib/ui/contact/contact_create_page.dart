@@ -1,3 +1,4 @@
+import 'package:contact_app/ui/contact/widget/contact_form.dart';
 import 'package:flutter/material.dart';
 
 class ContactCreatePage extends StatelessWidget {
@@ -12,7 +13,7 @@ class ContactCreatePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
       ),
-      body: Center(child: Text('')),
+      body: ContactForm(),
     );
   }
 }

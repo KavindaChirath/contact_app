@@ -28,6 +28,11 @@ class _ContactListPageState extends State<ContactListPage> {
     });
   }
 
+  void addContact(Contact contct) {
+    contacts.add(contct);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final FakeData = Faker();

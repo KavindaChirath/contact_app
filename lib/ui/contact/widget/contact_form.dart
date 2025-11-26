@@ -1,3 +1,4 @@
+import 'package:contact_app/Data/contact.dart';
 import 'package:flutter/material.dart';
 
 class ContactForm extends StatefulWidget {
@@ -56,13 +57,7 @@ class _ContactFormState extends State<ContactForm> {
           SizedBox(height: 10),
 
           ElevatedButton(
-            onPressed: () {
-              // Access the Form using the _formKey
-              if (_formKey.currentState?.validate() ?? false) {
-                _formKey.currentState?.save();
-                print('Name: $name, Email: $email, Phone: $phoneNumber');
-              }
-            },
+            onPressed: _onSaveContactButtonPressed,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -111,5 +106,17 @@ class _ContactFormState extends State<ContactForm> {
       return 'Enter a valid phone number';
     }
     return null;
+  }
+
+  void _onSaveContactButtonPressed() {
+    // Access the Form using the _formKey
+    if (_formKey.currentState?.validate() ?? false) {
+      _formKey.currentState?.save();
+      final newContact = Contact(
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber,
+      );
+    }
   }
 }

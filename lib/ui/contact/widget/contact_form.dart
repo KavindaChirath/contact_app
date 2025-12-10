@@ -112,6 +112,8 @@ class _ContactFormState extends State<ContactForm> {
     // Access the Form using the _formKey
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
+      // To print name , email and phone number in debug console
+      print('Name: $name, Email: $email, phone: $phoneNumber');
       final newContact = Contact(
         name: name,
         email: email,

@@ -64,6 +64,11 @@ class _ContactListPageState extends State<ContactListPage> {
           );
         },
       ),
+      // create save icon in home page
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.person_add),
+        onPressed: () {},
+      ),
     );
   }
 

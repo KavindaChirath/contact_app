@@ -1,4 +1,4 @@
-import 'package:contact_app/Data/contact.dart';
+import 'package:contact_app/data/contact.dart';
 import 'package:flutter/material.dart';
 
 class ContactForm extends StatefulWidget {
@@ -113,12 +113,14 @@ class _ContactFormState extends State<ContactForm> {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
       // To print name , email and phone number in debug console
-      print('Name: $name, Email: $email, phone: $phoneNumber');
+      //print('Name: $name, Email: $email, phone: $phoneNumber');
       final newContact = Contact(
         name: name,
         email: email,
         phoneNumber: phoneNumber,
       );
+      // To return to home page after saving contact
+      Navigator.of(context).pop(newContact);
     }
   }
 }

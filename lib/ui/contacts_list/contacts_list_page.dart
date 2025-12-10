@@ -1,6 +1,7 @@
+import 'package:contact_app/ui/contact/contact_create_page.dart';
 import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
-import '../../data/contact.dart';
+import 'package:contact_app/data/contact.dart';
 
 class ContactListPage extends StatefulWidget {
   final String title;
@@ -18,7 +19,8 @@ class _ContactListPageState extends State<ContactListPage> {
   @override
   void initState() {
     super.initState();
-    contacts = List.generate(50, (index) {
+    // Genetate 5 dummy Contacts
+    contacts = List.generate(5, (index) {
       final faker = Faker();
       return Contact(
         name: '${faker.person.firstName()} ${faker.person.lastName()}',
@@ -42,7 +44,7 @@ class _ContactListPageState extends State<ContactListPage> {
         title: Text(widget.title),
       ),
       body: ListView.builder(
-        itemCount: 50,
+        itemCount: contacts.length,
         // Runs and builds each item of the list
         itemBuilder: (context, index) {
           // Get dummy data to look like real contact app home
@@ -67,7 +69,17 @@ class _ContactListPageState extends State<ContactListPage> {
       // create save icon in home page
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.person_add),
-        onPressed: () {},
+        // Navigate to contact create page when button is Pressed
+        onPressed: () async {
+          final newContact = await Navigator.of(context).push<Contact?>(
+            MaterialPageRoute(
+              builder: (context) => ContactCreatePage(title: 'Create Contact'),
+            ),
+          );
+          if (newContact != null) {
+            addContact(newContact);
+          }
+        },
       ),
     );
   }

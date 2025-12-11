@@ -31,6 +31,11 @@ class _ContactListPageState extends State<ContactListPage> {
     });
   }
 
+  void updateContact(Contact contact, int contactIndex) {
+    contacts[contactIndex] = contact;
+    setState(() {});
+  }
+
   void addContact(Contact contct) {
     contacts.add(contct);
     setState(() {});
@@ -64,9 +69,10 @@ class _ContactListPageState extends State<ContactListPage> {
               },
             ),
 
-            // Navigate to Contact Edit page when tapped
-            onTap: () {
-              Navigator.of(context).push(
+            // Navigate to Contact Edit page when tapped and update on return
+            onTap: () async {
+              final updatedContact = await Navigator.push(
+                context,
                 MaterialPageRoute(
                   builder: (context) => ContactEditPage(
                     editedContact: contacts[index],
@@ -74,6 +80,11 @@ class _ContactListPageState extends State<ContactListPage> {
                   ),
                 ),
               );
+              if (updatedContact != null) {
+                setState(() {
+                  contacts[index] = updatedContact;
+                });
+              }
             },
           );
         },

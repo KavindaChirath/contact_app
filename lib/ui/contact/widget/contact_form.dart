@@ -8,6 +8,7 @@ class ContactForm extends StatefulWidget {
     Key? key,
     required this.editedContact,
     required this.editedContactIndex,
+    required Null Function(dynamic updatedContact) onSave,
   }) : super(key: key);
   State<ContactForm> createState() => _ContactFormState();
 }
@@ -29,6 +30,8 @@ class _ContactFormState extends State<ContactForm> {
           TextFormField(
             onSaved: (value) => name = value ?? '',
             validator: _validateName,
+            // TO Show Existing Name that you Entered for  Editing
+            initialValue: widget.editedContact.name,
 
             decoration: InputDecoration(
               labelText: 'Name',
@@ -42,6 +45,9 @@ class _ContactFormState extends State<ContactForm> {
           TextFormField(
             onSaved: (value) => email = value ?? '',
             validator: _validateEmail,
+            // TO Show Existing email that you Entered for  Editing
+            initialValue: widget.editedContact.email,
+
             decoration: InputDecoration(
               labelText: 'Email',
               border: OutlineInputBorder(
@@ -54,6 +60,9 @@ class _ContactFormState extends State<ContactForm> {
           TextFormField(
             onSaved: (value) => phoneNumber = value ?? '',
             validator: _validatePhoneNumber,
+            // TO Show Existing phone number that you Entered for  Editing
+            initialValue: widget.editedContact.phoneNumber,
+
             decoration: InputDecoration(
               labelText: 'Phone Number',
               border: OutlineInputBorder(
@@ -126,6 +135,11 @@ class _ContactFormState extends State<ContactForm> {
         email: email,
         phoneNumber: phoneNumber,
       );
+      if (widget.editedContactIndex >= 0) {
+        // Editing existing contact
+        // Update the existing contact's details
+        newContact.isFavorite = widget.editedContact.isFavorite;
+      }
       // To return to home page after saving contact
       Navigator.of(context).pop(newContact);
     }

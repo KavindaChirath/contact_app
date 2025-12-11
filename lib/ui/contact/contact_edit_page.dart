@@ -21,6 +21,9 @@ class ContactEditPage extends StatelessWidget {
       body: ContactForm(
         editedContact: editedContact,
         editedContactIndex: editedContactIndex,
+        onSave: (updatedContact) {
+          Navigator.pop(context, updatedContact);
+        },
       ),
     );
   }

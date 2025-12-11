@@ -63,6 +63,8 @@ class _ContactListPageState extends State<ContactListPage> {
                 });
               },
             ),
+
+            // Navigate to Contact Edit page when tapped
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(

@@ -2,6 +2,13 @@ import 'package:contact_app/data/contact.dart';
 import 'package:flutter/material.dart';
 
 class ContactForm extends StatefulWidget {
+  final Contact editedContact;
+  final int editedContactIndex;
+  ContactForm({
+    Key? key,
+    required this.editedContact,
+    required this.editedContactIndex,
+  }) : super(key: key);
   State<ContactForm> createState() => _ContactFormState();
 }
 

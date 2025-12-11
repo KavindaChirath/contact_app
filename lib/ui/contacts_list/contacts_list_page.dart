@@ -1,4 +1,5 @@
 import 'package:contact_app/ui/contact/contact_create_page.dart';
+import 'package:contact_app/ui/contact/contact_edit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
 import 'package:contact_app/data/contact.dart';
@@ -59,10 +60,19 @@ class _ContactListPageState extends State<ContactListPage> {
               onPressed: () {
                 setState(() {
                   contacts[index].isFavorite = !contacts[index].isFavorite;
-                  sortContacts();
                 });
               },
             ),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ContactEditPage(
+                    editedContact: contacts[index],
+                    editedContactIndex: index,
+                  ),
+                ),
+              );
+            },
           );
         },
       ),
@@ -82,37 +92,5 @@ class _ContactListPageState extends State<ContactListPage> {
         },
       ),
     );
-  }
-
-  void sortContacts() {
-    contacts.sort((a, b) {
-      int comparisonResult;
-
-      //sorting based on whather or not the contact is favorite
-      comparisonResult = compareAlphabetically(a, b);
-      // If the the favourite status of two contacts isidential, sort alphabetacally
-      //secondary alphabetical sorting
-      if (comparisonResult == 0) {
-        comparisonResult = compareAlphabetically(a, b);
-      }
-      return comparisonResult;
-    });
-  }
-
-  int comapareBasedOnFavoriteStatus(Contact a, Contact b) {
-    if (a.isFavorite) {
-      //contact 1 should be before contact 2
-      return -1;
-    } else if (b.isFavorite) {
-      //contact 2 should be before contact 1
-      return 1;
-    } else {
-      // The position doesn't channge
-      return 0;
-    }
-  }
-
-  int compareAlphabetically(Contact a, Contact b) {
-    return a.name.compareTo(b.name);
   }
 }

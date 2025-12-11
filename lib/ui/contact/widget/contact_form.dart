@@ -31,7 +31,8 @@ class _ContactFormState extends State<ContactForm> {
             onSaved: (value) => name = value ?? '',
             validator: _validateName,
             // TO Show Existing Name that you Entered for  Editing
-            initialValue: widget.editedContact.name,
+            // due to using elvis operator put the ? after editedContact (if is't we can't save new contact)
+            initialValue: widget.editedContact?.name,
 
             decoration: InputDecoration(
               labelText: 'Name',
@@ -46,7 +47,8 @@ class _ContactFormState extends State<ContactForm> {
             onSaved: (value) => email = value ?? '',
             validator: _validateEmail,
             // TO Show Existing email that you Entered for  Editing
-            initialValue: widget.editedContact.email,
+            // due to using elvis operator put the ? after editedContact (if is't we can't save new contact)
+            initialValue: widget.editedContact?.email,
 
             decoration: InputDecoration(
               labelText: 'Email',
@@ -61,7 +63,8 @@ class _ContactFormState extends State<ContactForm> {
             onSaved: (value) => phoneNumber = value ?? '',
             validator: _validatePhoneNumber,
             // TO Show Existing phone number that you Entered for  Editing
-            initialValue: widget.editedContact.phoneNumber,
+            // due to using elvis operator put the ? after editedContact (if is't we can't save new contact)
+            initialValue: widget.editedContact?.phoneNumber,
 
             decoration: InputDecoration(
               labelText: 'Phone Number',
@@ -134,6 +137,9 @@ class _ContactFormState extends State<ContactForm> {
         name: name,
         email: email,
         phoneNumber: phoneNumber,
+        // return null if editedContact is null
+        // it is elvis operator
+        isFavorite: widget.editedContact?.isFavorite ?? false,
       );
       if (widget.editedContactIndex >= 0) {
         // Editing existing contact

@@ -26,6 +26,7 @@ class _ContactFormState extends State<ContactForm> {
       key: _formKey,
       child: ListView(
         children: <Widget>[
+          buildContactPicture(),
           SizedBox(height: 10),
           TextFormField(
             onSaved: (value) => name = value ?? '',
@@ -93,6 +94,10 @@ class _ContactFormState extends State<ContactForm> {
         ],
       ),
     );
+  }
+
+  Widget buildContactPicture() {
+    return CircleAvatar(child: Text(widget.editedContact.name[0]));
   }
 
   // use validator: return an error string or null if the value is in the correct format

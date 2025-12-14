@@ -26,6 +26,7 @@ class _ContactFormState extends State<ContactForm> {
       key: _formKey,
       child: ListView(
         children: <Widget>[
+          SizedBox(height: 10),
           buildContactPicture(),
           SizedBox(height: 10),
           TextFormField(
@@ -96,8 +97,16 @@ class _ContactFormState extends State<ContactForm> {
     );
   }
 
+  // ShowAvatar when create or edit contact
   Widget buildContactPicture() {
-    return CircleAvatar(child: Text(widget.editedContact.name[0]));
+    final halfScreenDiameter = MediaQuery.of(context).size.width / 2;
+    return CircleAvatar(
+      radius: halfScreenDiameter / 2,
+      child: Text(
+        widget.editedContact.name[0],
+        style: TextStyle(fontSize: halfScreenDiameter / 2),
+      ),
+    );
   }
 
   // use validator: return an error string or null if the value is in the correct format

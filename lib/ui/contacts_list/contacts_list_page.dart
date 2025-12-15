@@ -85,9 +85,10 @@ class _ContactListPageState extends State<ContactListPage> {
               child: ListTile(
                 title: Text(contacts[index].name),
                 subtitle: Text(contacts[index].email),
-                leading: CircleAvatar(
-                  child: Text(contacts[index].name[0]),
+                leading: _buildCircleAvatar(
+                  index,
                 ), // when have't profle picture show first letter of name
+
                 trailing: IconButton(
                   icon: Icon(
                     contacts[index].isFavorite ? Icons.star : Icons.star_border,
@@ -139,6 +140,14 @@ class _ContactListPageState extends State<ContactListPage> {
           }
         },
       ),
+    );
+  }
+
+  // Hero Widget to nice Animation when clicking on contacts
+  Hero _buildCircleAvatar(int index) {
+    return Hero(
+      tag: contacts[index].hashCode,
+      child: CircleAvatar(child: Text(contacts[index].name[0])),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:contact_app/data/contact.dart';
 import 'package:flutter/material.dart';
 
@@ -100,13 +102,27 @@ class _ContactFormState extends State<ContactForm> {
   // ShowAvatar when create or edit contact
   Widget buildContactPicture() {
     final halfScreenDiameter = MediaQuery.of(context).size.width / 2;
-    return CircleAvatar(
-      radius: halfScreenDiameter / 2,
-      child: Text(
-        widget.editedContact.name[0],
-        style: TextStyle(fontSize: halfScreenDiameter / 2),
+    return Hero(
+      tag: widget.editedContact?.hashCode ?? 0,
+      child: CircleAvatar(
+        radius: halfScreenDiameter / 2,
+        child: _buildCircleAvatarContent(halfScreenDiameter),
       ),
     );
+  }
+
+  // Build the circle Avatar when create or edit content (if edit show first letter of name )
+  Widget _buildCircleAvatarContent(double halfScreenDiameter) {
+    if (widget.editedContact.name.isNotEmpty) {
+      return Text(
+        widget.editedContact.name.isNotEmpty
+            ? widget.editedContact.name[0].toUpperCase()
+            : '',
+        style: TextStyle(fontSize: halfScreenDiameter / 2),
+      );
+    } else {
+      return Icon(Icons.person, size: halfScreenDiameter / 2);
+    }
   }
 
   // use validator: return an error string or null if the value is in the correct format

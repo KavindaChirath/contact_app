@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:contact_app/data/contact.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +34,7 @@ class _ContactFormState extends State<ContactForm> {
             validator: _validateName,
             // TO Show Existing Name that you Entered for  Editing
             // due to using elvis operator put the ? after editedContact (if is't we can't save new contact)
-            initialValue: widget.editedContact?.name,
+            initialValue: widget.editedContact.name,
 
             decoration: InputDecoration(
               labelText: 'Name',
@@ -52,7 +50,7 @@ class _ContactFormState extends State<ContactForm> {
             validator: _validateEmail,
             // TO Show Existing email that you Entered for  Editing
             // due to using elvis operator put the ? after editedContact (if is't we can't save new contact)
-            initialValue: widget.editedContact?.email,
+            initialValue: widget.editedContact.email,
 
             decoration: InputDecoration(
               labelText: 'Email',
@@ -68,7 +66,7 @@ class _ContactFormState extends State<ContactForm> {
             validator: _validatePhoneNumber,
             // TO Show Existing phone number that you Entered for  Editing
             // due to using elvis operator put the ? after editedContact (if is't we can't save new contact)
-            initialValue: widget.editedContact?.phoneNumber,
+            initialValue: widget.editedContact.phoneNumber,
 
             decoration: InputDecoration(
               labelText: 'Phone Number',
@@ -103,7 +101,9 @@ class _ContactFormState extends State<ContactForm> {
   Widget buildContactPicture() {
     final halfScreenDiameter = MediaQuery.of(context).size.width / 2;
     return Hero(
-      tag: widget.editedContact?.hashCode ?? 0,
+      tag: widget.editedContactIndex >= 0
+          ? '${widget.editedContactIndex}'
+          : 'new_contact',
       child: CircleAvatar(
         radius: halfScreenDiameter / 2,
         child: _buildCircleAvatarContent(halfScreenDiameter),
@@ -113,11 +113,10 @@ class _ContactFormState extends State<ContactForm> {
 
   // Build the circle Avatar when create or edit content (if edit show first letter of name )
   Widget _buildCircleAvatarContent(double halfScreenDiameter) {
-    if (widget.editedContact.name.isNotEmpty) {
+    final String? name = widget.editedContact.name;
+    if (name != null && name.trim().isNotEmpty) {
       return Text(
-        widget.editedContact.name.isNotEmpty
-            ? widget.editedContact.name[0].toUpperCase()
-            : '',
+        name.trim().isNotEmpty ? name.trim()[0].toUpperCase() : '',
         style: TextStyle(fontSize: halfScreenDiameter / 2),
       );
     } else {
@@ -167,9 +166,7 @@ class _ContactFormState extends State<ContactForm> {
         name: name,
         email: email,
         phoneNumber: phoneNumber,
-        // return null if editedContact is null
-        // it is elvis operator
-        isFavorite: widget.editedContact?.isFavorite ?? false,
+        isFavorite: widget.editedContact.isFavorite,
       );
       if (widget.editedContactIndex >= 0) {
         // Editing existing contact

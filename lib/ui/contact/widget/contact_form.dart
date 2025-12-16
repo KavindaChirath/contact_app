@@ -1,5 +1,6 @@
 import 'package:contact_app/data/contact.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ContactForm extends StatefulWidget {
   final Contact editedContact;
@@ -104,11 +105,20 @@ class _ContactFormState extends State<ContactForm> {
       tag: widget.editedContactIndex >= 0
           ? '${widget.editedContactIndex}'
           : 'new_contact',
-      child: CircleAvatar(
-        radius: halfScreenDiameter / 2,
-        child: _buildCircleAvatarContent(halfScreenDiameter),
+      child: GestureDetector(
+        onTap: onContactPictureTapped,
+        child: CircleAvatar(
+          radius: halfScreenDiameter / 2,
+          child: _buildCircleAvatarContent(halfScreenDiameter),
+        ),
       ),
     );
+  }
+
+  void onContactPictureTapped() async {
+    final ImagePicker _picker = ImagePicker();
+    await _picker.pickImage(source: ImageSource.gallery);
+    print('Contact picture tapped');
   }
 
   // Build the circle Avatar when create or edit content (if edit show first letter of name )

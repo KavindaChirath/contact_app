@@ -1,7 +1,7 @@
 import 'package:contact_app/ui/contact/contact_create_page.dart';
 import 'package:contact_app/ui/contact/contact_edit_page.dart';
 import 'package:flutter/material.dart';
-import 'package:faker/faker.dart';
+import 'package:faker/faker.dart' hide Image;
 import 'package:contact_app/data/contact.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -146,7 +146,16 @@ class _ContactListPageState extends State<ContactListPage> {
   Hero _buildCircleAvatar(int index) {
     return Hero(
       tag: contacts[index].hashCode,
-      child: CircleAvatar(child: Text(contacts[index].name[0])),
+
+      child: CircleAvatar(child: _buildCircleAvatarContent(index)),
     );
+  }
+
+  Widget _buildCircleAvatarContent(int index) {
+    if (contacts[index].contactImageFile != null) {
+      return Image.file(contacts[index].contactImageFile!, fit: BoxFit.cover);
+    }
+    // Display the first letter of the contact name
+    return Text(contacts[index].name[0]);
   }
 }

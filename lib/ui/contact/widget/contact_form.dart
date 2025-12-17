@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:contact_app/data/contact.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,6 +22,7 @@ class _ContactFormState extends State<ContactForm> {
   String name = '';
   String email = '';
   String phoneNumber = '';
+  File? _contactImageFile;
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +105,8 @@ class _ContactFormState extends State<ContactForm> {
   Widget buildContactPicture() {
     final halfScreenDiameter = MediaQuery.of(context).size.width / 2;
     return Hero(
-      tag: widget.editedContactIndex >= 0
-          ? '${widget.editedContactIndex}'
+      tag: (widget.editedContactIndex >= 0 && widget.editedContact.name != null)
+          ? 'contact_${widget.editedContactIndex}'
           : 'new_contact',
       child: GestureDetector(
         onTap: onContactPictureTapped,
@@ -115,23 +118,37 @@ class _ContactFormState extends State<ContactForm> {
     );
   }
 
-  void onContactPictureTapped() async {
-    final ImagePicker _picker = ImagePicker();
-    await _picker.pickImage(source: ImageSource.gallery);
-    print('Contact picture tapped');
+  Future<void> onContactPictureTapped() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedImage = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedImage == null) return; // when user cancel the picker
+    setState(() {
+      _contactImageFile = File(pickedImage.path);
+    });
   }
 
   // Build the circle Avatar when create or edit content (if edit show first letter of name )
   Widget _buildCircleAvatarContent(double halfScreenDiameter) {
     final String? name = widget.editedContact.name;
-    if (name != null && name.trim().isNotEmpty) {
+    if (_contactImageFile != null) {
+      // to make image as circle
+      return ClipOval(
+        child: Image.file(
+          _contactImageFile!,
+          width: halfScreenDiameter,
+          height: halfScreenDiameter,
+          fit: BoxFit.cover,
+        ),
+      );
+    } else if (name != null && name.trim().isNotEmpty) {
       return Text(
         name.trim().isNotEmpty ? name.trim()[0].toUpperCase() : '',
         style: TextStyle(fontSize: halfScreenDiameter / 2),
       );
-    } else {
-      return Icon(Icons.person, size: halfScreenDiameter / 2);
     }
+    return Icon(Icons.person, size: halfScreenDiameter / 2);
   }
 
   // use validator: return an error string or null if the value is in the correct format
@@ -177,6 +194,7 @@ class _ContactFormState extends State<ContactForm> {
         email: email,
         phoneNumber: phoneNumber,
         isFavorite: widget.editedContact.isFavorite,
+        contactImageFile: _contactImageFile,
       );
       if (widget.editedContactIndex >= 0) {
         // Editing existing contact

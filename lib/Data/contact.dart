@@ -6,7 +6,7 @@ class Contact {
   // all phone numbers are not formatted the same way
   String phoneNumber;
   bool isFavorite = false;
-  File? contactImageFile;
+  File? ImageFile;
 
   // Required using to named parameters because string can't be not null
   Contact({
@@ -14,6 +14,6 @@ class Contact {
     required this.email,
     required this.phoneNumber,
     this.isFavorite = false,
-    this.contactImageFile,
+    this.ImageFile,
   });
 }

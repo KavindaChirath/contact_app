@@ -85,7 +85,7 @@ class _ContactListPageState extends State<ContactListPage> {
                 title: Text(contacts[index].name),
                 subtitle: Text(contacts[index].email),
                 leading: _buildCircleAvatar(
-                  index,
+                  contacts[index],
                 ), // when have't profle picture show first letter of name
 
                 trailing: IconButton(
@@ -143,19 +143,25 @@ class _ContactListPageState extends State<ContactListPage> {
   }
 
   // Hero Widget to nice Animation when clicking on contacts
-  Hero _buildCircleAvatar(int index) {
+  Hero _buildCircleAvatar(Contact displayedContact) {
     return Hero(
-      tag: contacts[index].hashCode,
-
-      child: CircleAvatar(child: _buildCircleAvatarContent(index)),
+      tag: displayedContact.hashCode,
+      child: CircleAvatar(child: _buildCircleAvatarContent(displayedContact)),
     );
   }
 
-  Widget _buildCircleAvatarContent(int index) {
-    if (contacts[index].contactImageFile != null) {
-      return Image.file(contacts[index].contactImageFile!, fit: BoxFit.cover);
+  Widget _buildCircleAvatarContent(Contact displayedContact) {
+    if (displayedContact.ImageFile != null) {
+      return ClipOval(
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: Image.file(displayedContact.ImageFile!, fit: BoxFit.cover),
+        ),
+      );
+    } else {
+      return Text(
+        displayedContact.name.isNotEmpty ? displayedContact.name[0] : '',
+      );
     }
-    // Display the first letter of the contact name
-    return Text(contacts[index].name[0]);
   }
 }

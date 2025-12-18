@@ -22,7 +22,16 @@ class _ContactFormState extends State<ContactForm> {
   String name = '';
   String email = '';
   String phoneNumber = '';
-  File? _contactImageFile;
+  File? _ImageFile;
+
+  bool get hasSelectedCustomImage => _ImageFile != null;
+
+  // show the existing profile picture when edit contact (after saved)
+  @override
+  void initState() {
+    super.initState();
+    _ImageFile = widget.editedContact.ImageFile;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,30 +134,33 @@ class _ContactFormState extends State<ContactForm> {
     );
     if (pickedImage == null) return; // when user cancel the picker
     setState(() {
-      _contactImageFile = File(pickedImage.path);
+      _ImageFile = File(pickedImage.path);
     });
   }
 
   // Build the circle Avatar when create or edit content (if edit show first letter of name )
   Widget _buildCircleAvatarContent(double halfScreenDiameter) {
-    final String? name = widget.editedContact.name;
-    if (_contactImageFile != null) {
-      // to make image as circle
-      return ClipOval(
-        child: Image.file(
-          _contactImageFile!,
-          width: halfScreenDiameter,
-          height: halfScreenDiameter,
-          fit: BoxFit.cover,
-        ),
-      );
-    } else if (name != null && name.trim().isNotEmpty) {
+    if (widget.editedContactIndex >= 0 && widget.editedContact.name != null) {
+      return _buildEditModeCircleAvatarContent(halfScreenDiameter);
+    } else {
+      return Icon(Icons.person, size: halfScreenDiameter / 2);
+    }
+  }
+
+  Widget _buildEditModeCircleAvatarContent(double halfScreenDiameter) {
+    if (_ImageFile == null) {
       return Text(
-        name.trim().isNotEmpty ? name.trim()[0].toUpperCase() : '',
+        widget.editedContact.name[0],
         style: TextStyle(fontSize: halfScreenDiameter / 2),
       );
+    } else {
+      return ClipOval(
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: Image.file(_ImageFile!, fit: BoxFit.cover),
+        ),
+      );
     }
-    return Icon(Icons.person, size: halfScreenDiameter / 2);
   }
 
   // use validator: return an error string or null if the value is in the correct format
@@ -194,7 +206,7 @@ class _ContactFormState extends State<ContactForm> {
         email: email,
         phoneNumber: phoneNumber,
         isFavorite: widget.editedContact.isFavorite,
-        contactImageFile: _contactImageFile,
+        ImageFile: _ImageFile,
       );
       if (widget.editedContactIndex >= 0) {
         // Editing existing contact

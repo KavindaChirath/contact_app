@@ -39,7 +39,7 @@ class Contact {
           ? File(Map['ImageFilePath'])
           : null,
       //  if there is no image file path Set ImageFile to null
-      // Otherwise convert it to File
+      // Otherwise convert it into File
     );
   }
 }

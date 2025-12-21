@@ -209,6 +209,8 @@ class _ContactFormState extends State<ContactForm> {
         ImageFile: _ImageFile,
       );
       if (widget.editedContactIndex >= 0) {
+        // id doesn't change after editing other contact fields
+        newContact.id = widget.editedContact.id;
         // Editing existing contact
         // Update the existing contact's details
         newContact.isFavorite = widget.editedContact.isFavorite;

@@ -1,6 +1,8 @@
 import 'dart:io';
 
 class Contact {
+  // Database id
+  late int id;
   String name;
   String email;
   // all phone numbers are not formatted the same way

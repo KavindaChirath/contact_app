@@ -24,7 +24,7 @@ class Contact {
       'name': name,
       'email': email,
       'phoneNumber': phoneNumber,
-      'isFavorite': isFavorite,
+      'isFavorite': isFavorite ? 1 : 0,
       'ImageFilePath': ImageFile?.path,
       // we cannot store File object with SEMBAST directly (iamge file)
     };
@@ -36,7 +36,7 @@ class Contact {
       name: Map['name'],
       email: Map['email'],
       phoneNumber: Map['phoneNumber'],
-      isFavorite: Map['isFavorite'],
+      isFavorite: Map['isFavorite'] == 1 ? true : false,
       ImageFile: Map['ImageFilePath'] != null
           ? File(Map['ImageFilePath'])
           : null,

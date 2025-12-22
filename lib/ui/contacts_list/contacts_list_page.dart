@@ -1,7 +1,7 @@
+import 'package:contact_app/data/db/contact_dao.dart';
 import 'package:contact_app/ui/contact/contact_create_page.dart';
 import 'package:contact_app/ui/contact/contact_edit_page.dart';
 import 'package:flutter/material.dart';
-import 'package:faker/faker.dart' hide Image;
 import 'package:contact_app/data/contact.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -14,37 +14,54 @@ class ContactListPage extends StatefulWidget {
   State<ContactListPage> createState() => _ContactListPageState();
 }
 
+bool _isLoading = true;
+bool get isLoading => _isLoading;
+
 class _ContactListPageState extends State<ContactListPage> {
+  final ContactDao _contactDao = ContactDao();
   List<Contact> contacts = [];
+
+  Future loadContacts() async {
+    _isLoading = true;
+    setState(() {});
+    contacts = await _contactDao.getAllINSortedOrder();
+    _isLoading = false;
+    setState(() {});
+  }
 
   // Runs When the Widget is Initialized
   @override
   void initState() {
     super.initState();
+    loadContacts();
     // Genetate 5 dummy Contacts
-    contacts = List.generate(5, (index) {
-      final faker = Faker();
-      return Contact(
-        name: '${faker.person.firstName()} ${faker.person.lastName()}',
-        email: faker.internet.email(),
-        phoneNumber: faker.randomGenerator.integer(100000).toString(),
-      );
-    });
   }
 
-  void updateContact(Contact contact, int contactIndex) {
-    contacts[contactIndex] = contact;
+  // to add new contact
+  Future addContact(Contact contct) async {
+    await _contactDao.insert(contct);
+    await loadContacts();
+    setState(() {});
+  }
+
+  // to update contact
+  Future updateContact(Contact contact) async {
+    await _contactDao.update(contact);
+    await loadContacts();
     setState(() {});
   }
 
   // to delete the contact
-  void deleteContact(int Index) {
-    contacts.removeAt(Index);
+  Future deleteContact(Contact contact) async {
+    await _contactDao.delete(contact);
+    await loadContacts();
     setState(() {});
   }
 
-  void addContact(Contact contct) {
-    contacts.add(contct);
+  Future changeFavoriteStatus(Contact contact) async {
+    contact.isFavorite = !contact.isFavorite;
+    await _contactDao.update(contact);
+    await loadContacts();
     setState(() {});
   }
 
@@ -59,23 +76,32 @@ class _ContactListPageState extends State<ContactListPage> {
         itemCount: contacts.length,
         // Runs and builds each item of the list
         itemBuilder: (context, index) {
-          // Get dummy data to look like real contact app home
-
           //set the slidable widget to enable swipe to delete
           return Slidable(
             endActionPane: ActionPane(
               motion: ScrollMotion(),
               children: [
+                // To delete the contact
                 SlidableAction(
-                  onPressed: (context) {
-                    setState(() {
-                      deleteContact(index); // To delete the contact
-                    });
-                  },
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
                   label: 'Delete',
+                  onPressed: (context) async {
+                    await ContactDao().delete(contacts[index]);
+                    await loadContacts();
+                    setState(() {});
+                  },
+                ),
+                SlidableAction(
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                  icon: Icons.call,
+                  label: 'Call',
+                  onPressed: (context) async {
+                    await loadContacts();
+                    setState(() {});
+                  },
                 ),
               ],
             ),

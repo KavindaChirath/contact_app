@@ -27,16 +27,13 @@ class ContactDao {
 
   // Delete the Contacts
   Future delete(Contact contact) async {
-    final finder = Finder(filter: Filter.equals('id', contact.id));
-
-    await _contactStore.delete(
-      await AppDatabase.instance.database,
-      finder: finder,
-    );
+    await _contactStore
+        .record(contact.id)
+        .delete(await AppDatabase.instance.database);
   }
 
   // Get Contacts
-  Future<List<Contact>> getAllSortedByName() async {
+  Future<List<Contact>> getAllINSortedOrder() async {
     final finder = Finder(
       sortOrders: [SortOrder('isFavourite', false), SortOrder('name')],
     );

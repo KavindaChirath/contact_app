@@ -78,6 +78,34 @@ class _ContactListPageState extends State<ContactListPage> {
         itemBuilder: (context, index) {
           //set the slidable widget to enable swipe to delete
           return Slidable(
+            key: ValueKey(contacts[index].id),
+            startActionPane: ActionPane(
+              motion: ScrollMotion(),
+              children: [
+                SlidableAction(
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                  icon: Icons.call,
+                  label: 'Call',
+                  onPressed: (context) async {
+                    await loadContacts();
+                    setState(() {});
+                  },
+                ),
+
+                SlidableAction(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  icon: Icons.message,
+                  label: 'Message',
+                  onPressed: (context) async {
+                    await loadContacts();
+                    setState(() {});
+                  },
+                ),
+              ],
+            ),
+            // end Actionpane used for when swipe other side show some icons
             endActionPane: ActionPane(
               motion: ScrollMotion(),
               children: [
@@ -89,16 +117,6 @@ class _ContactListPageState extends State<ContactListPage> {
                   label: 'Delete',
                   onPressed: (context) async {
                     await ContactDao().delete(contacts[index]);
-                    await loadContacts();
-                    setState(() {});
-                  },
-                ),
-                SlidableAction(
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                  icon: Icons.call,
-                  label: 'Call',
-                  onPressed: (context) async {
                     await loadContacts();
                     setState(() {});
                   },

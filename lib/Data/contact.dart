@@ -5,6 +5,7 @@ class Contact {
   late int id;
   String name;
   String email;
+  String phone;
   // all phone numbers are not formatted the same way
   String phoneNumber;
   bool isFavorite = false;
@@ -14,6 +15,7 @@ class Contact {
   Contact({
     required this.name,
     required this.email,
+    required this.phone,
     required this.phoneNumber,
     this.isFavorite = false,
     this.ImageFile,
@@ -22,6 +24,7 @@ class Contact {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
+      'phone': phone,
       'email': email,
       'phoneNumber': phoneNumber,
       'isFavorite': isFavorite ? 1 : 0,
@@ -33,9 +36,10 @@ class Contact {
   // Convert Map into Contact
   static Contact fromMap(Map<String, dynamic> Map) {
     return Contact(
-      name: Map['name'],
-      email: Map['email'],
-      phoneNumber: Map['phoneNumber'],
+      name: Map['name'] ?? '',
+      phone: Map['phone'] ?? '',
+      email: Map['email'] ?? '',
+      phoneNumber: Map['phoneNumber'] ?? '',
       isFavorite: Map['isFavorite'] == 1 ? true : false,
       ImageFile: Map['ImageFilePath'] != null
           ? File(Map['ImageFilePath'])

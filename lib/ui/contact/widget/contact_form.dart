@@ -20,6 +20,7 @@ class _ContactFormState extends State<ContactForm> {
   // keys allows us to access widget from a different place in code
   final _formKey = GlobalKey<FormState>();
   String name = '';
+  String phone = '';
   String email = '';
   String phoneNumber = '';
   File? _ImageFile;
@@ -38,6 +39,7 @@ class _ContactFormState extends State<ContactForm> {
     return Form(
       key: _formKey,
       child: ListView(
+        padding: EdgeInsets.all(8.0),
         children: <Widget>[
           SizedBox(height: 10),
           buildContactPicture(),
@@ -203,6 +205,7 @@ class _ContactFormState extends State<ContactForm> {
       //print('Name: $name, Email: $email, phone: $phoneNumber');
       final newContact = Contact(
         name: name,
+        phone: phone,
         email: email,
         phoneNumber: phoneNumber,
         isFavorite: widget.editedContact.isFavorite,

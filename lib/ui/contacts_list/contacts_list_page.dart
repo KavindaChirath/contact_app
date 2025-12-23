@@ -4,6 +4,7 @@ import 'package:contact_app/ui/contact/contact_edit_page.dart';
 import 'package:flutter/material.dart';
 import 'package:contact_app/data/contact.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 class ContactListPage extends StatefulWidget {
   final String title;
@@ -65,6 +66,17 @@ class _ContactListPageState extends State<ContactListPage> {
     setState(() {});
   }
 
+  Future _callPhoneNumber(BuildContext context, String phoneNumber) async {
+    final url = 'tel:$phoneNumber';
+    if (await url_launcher.canLaunch(url)) {
+      await url_launcher.launch(url);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Cannot make a call')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +101,9 @@ class _ContactListPageState extends State<ContactListPage> {
                   label: 'Call',
                   onPressed: (context) async {
                     await loadContacts();
-                    setState(() {});
+                    setState(() {
+                      _callPhoneNumber(context, contacts[index].phone);
+                    });
                   },
                 ),
 
@@ -123,6 +137,7 @@ class _ContactListPageState extends State<ContactListPage> {
                 ),
               ],
             ),
+
             child: Container(
               color: Theme.of(context).canvasColor,
               child: ListTile(

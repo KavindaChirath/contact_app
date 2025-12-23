@@ -15,7 +15,7 @@ class ContactCreatePage extends StatelessWidget {
         title: Text(title),
       ),
       body: ContactForm(
-        editedContact: Contact(name: '', email: '', phoneNumber: ''),
+        editedContact: Contact(name: '', email: '', phoneNumber: '', phone: ''),
         editedContactIndex: -1,
         onSave: (contact) {
           // Pop and return the new contact to the previous screen

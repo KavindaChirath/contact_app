@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
           seedColor: const Color.fromARGB(255, 1, 31, 41),
         ),
       ),
-      home: ContactListPage(title: 'Create'),
+      home: ContactListPage(title: 'Contacts'),
     );
   }
 }

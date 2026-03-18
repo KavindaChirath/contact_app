@@ -185,7 +185,7 @@ class _ContactFormState extends State<ContactForm> {
     return null;
   }
 
-  // Validate the Email Address
+  // Validate the Phone Number
   String? _validatePhoneNumber(String? value) {
     final phoneRegex = RegExp(r'^\+?[0-9]{7,15}$');
 
